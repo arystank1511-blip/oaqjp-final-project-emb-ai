@@ -1,32 +1,35 @@
-<html>
+<!doctype html>
+<html lang="en">
 <head>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <script src="./static/mywebscript.js"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NLP - Emotion Detection</title>
+    <script defer src="{{ url_for('static', filename='mywebscript.js') }}"></script>
     <style>
-        .center-heading {
-            text-align: center;
-        }
+        * { box-sizing: border-box; }
+        body { margin: 0; background: #f5f7fb; color: #192437; font: 16px/1.6 system-ui, sans-serif; }
+        main { max-width: 52rem; margin: 3rem auto; padding: 2rem; background: white; border: 1px solid #d9e1ee; border-radius: .75rem; }
+        h1 { margin: 0 0 1.5rem; line-height: 1.2; }
+        h2 { font-size: 1.15rem; margin: 1.75rem 0 .4rem; }
+        label { display: block; font-weight: 600; }
+        textarea { display: block; width: 100%; min-height: 5.5rem; resize: vertical; margin: .5rem 0 1rem; padding: .6rem .8rem; border: 1px solid #7c889b; border-radius: .35rem; font: inherit; }
+        button { background: #204c9a; color: white; padding: .65rem 1rem; border: 0; border-radius: .35rem; font: inherit; cursor: pointer; }
+        button:disabled { opacity: .65; cursor: wait; }
+        :focus-visible { outline: 3px solid #275bc0; outline-offset: 3px; }
+        #system_response { display: block; min-height: 3rem; padding: .7rem 1rem; background: #edf2f9; border-radius: .35rem; overflow-wrap: anywhere; }
+        @media (max-width: 54rem) { main { margin: 1rem; padding: 1.5rem; } }
     </style>
 </head>
 <body>
-    <div class="card">
-        <div class="card-body">
-            <h1 class="center-heading">NLP - Emotion Detection</h1> 
-            <div style="padding: 25px 25px 25px 25px;">
-            <h2 class="mb-3">
-                <label class="form-label">Please enter the text to be analyzed</label>
-                <input type="textarea" class="form-control" id="textToAnalyze">
-            </h2>
-
-            <div style="padding: 25px 25px 25px 25px;">
-                <button onclick="RunSentimentAnalysis()" class="btn btn-secondary">Run Sentiment Analysis</button>
-            </div>
-            <div style="padding: 25px 25px 25px 25px;"></div>
-            <h2 class="mb-3">
-                <label class="form-label">Result of Emotion Detection</label>
-            </h2>
-
-            <div id="system_response" style="padding: 25px 25px 25px 25px;"></div>
-        </div>
-    </div>
+    <main>
+        <h1>NLP - Emotion Detection</h1>
+        <form id="emotionForm">
+            <label for="textToAnalyze">Please enter the text to be analyzed</label>
+            <textarea id="textToAnalyze" name="textToAnalyze" placeholder="Enter a sentence in English"></textarea>
+            <button type="submit">Run Sentiment Analysis</button>
+        </form>
+        <h2>Result of Emotion Detection</h2>
+        <output id="system_response" for="textToAnalyze" role="status" aria-live="polite"></output>
+    </main>
 </body>
+</html>

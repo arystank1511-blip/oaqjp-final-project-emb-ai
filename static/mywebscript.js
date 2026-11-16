@@ -1,12 +1,28 @@
-let RunSentimentAnalysis = ()=>{
-    textToAnalyze = document.getElementById("textToAnalyze").value;
+const form = document.getElementById('emotionForm');
+const input = document.getElementById('textToAnalyze');
+const output = document.getElementById('system_response');
+const button = form.querySelector('button');
 
-    let xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            document.getElementById("system_response").innerHTML = xhttp.responseText;
+form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const query = new URLSearchParams({textToAnalyze: input.value});
+    button.disabled = true;
+    output.textContent = 'Analyzing…';
+
+    try {
+        const response = await fetch(`/emotionDetector?${query}`);
+        const message = await response.text();
+        const match = response.ok && /^(.*The dominant emotion is )(\w+)\.$/.exec(message);
+        if (match) {
+            const name = document.createElement('strong');
+            name.textContent = match[2];
+            output.replaceChildren(match[1], name, '.');
+        } else {
+            output.textContent = message;
         }
-    };
-    xhttp.open("GET", "emotionDetector?textToAnalyze"+"="+textToAnalyze, true);
-    xhttp.send();
-}
+    } catch {
+        output.textContent = 'Could not reach the server. Please try again.';
+    } finally {
+        button.disabled = false;
+    }
+});
